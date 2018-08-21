@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+		
+	<!-- Scan the following package for autowiring -->
+	<context:component-scan base-package="net.heb" />
+	
+	<!-- Enable annotations -->
+	<mvc:annotation-driven/>
+	
+	<!-- Allow static content to be served from the root folder -->
+	<mvc:resources mapping="/**" location="/" cache-period="31556926"/>
+	
+	<!-- View resolver for JSPs -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- Enable the sybase driver using jconn4.jar, putting user and pass is bad form, needs to be abstracted and user specific.  -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.sybase.jdbc4.jdbc.SybDriver"/>
+		<property name="url" value="jdbc:sybase:Tds:localhost:2648"/>
+		<property name="username" value="dba"/>
+		<property name="password" value="sql"/>
+	</bean>
+</beans>
